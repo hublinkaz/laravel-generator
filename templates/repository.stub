@@ -32,4 +32,13 @@ class $MODEL_NAME$Repository extends BaseRepository
     {
         return $MODEL_NAME$::class;
     }
+
+
+    /**
+     * Create 
+     **/
+    public function Create$MODEL_NAME$()
+    {
+        return $MODEL_NAME$::class;
+    }
 }
