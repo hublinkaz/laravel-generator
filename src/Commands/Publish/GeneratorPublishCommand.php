@@ -71,14 +71,14 @@ class GeneratorPublishCommand extends PublishBaseCommand
             return 1;
         }
 
-        $fileContent = file_get_contents($routeServiceProviderPath);
+        // $fileContent = file_get_contents($routeServiceProviderPath);
 
-        $search = "Route::prefix('api')".PHP_EOL.str(' ')->repeat(16)."->middleware('api')";
-        $beforeContent = str($fileContent)->before($search);
-        $afterContent = str($fileContent)->after($search);
+        // $search = "Route::prefix('api')".PHP_EOL.str(' ')->repeat(16)."->middleware('api')";
+        // $beforeContent = str($fileContent)->before($search);
+        // $afterContent = str($fileContent)->after($search);
 
-        $finalContent = $beforeContent.$search.PHP_EOL.str(' ')->repeat(16)."->as('api.')".$afterContent;
-        file_put_contents($routeServiceProviderPath, $finalContent);
+        // $finalContent = $beforeContent.$search.PHP_EOL.str(' ')->repeat(16)."->as('api.')".$afterContent;
+        // file_put_contents($routeServiceProviderPath, $finalContent);
 
         return 0;
     }
