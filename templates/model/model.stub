@@ -3,6 +3,8 @@
 namespace $NAMESPACE_MODEL$;
 
 use $NAMESPACE_MODEL_EXTEND$ as Model;
+use Spatie\Translatable\HasTranslations;
+
 $SOFT_DELETE_IMPORT$
 $HAS_FACTORY_IMPORT$
 
@@ -11,11 +13,22 @@ class $MODEL_NAME$ extends Model
 {
 $SOFT_DELETE$
 $HAS_FACTORY$
+    use HasTranslations;
+
     public $table = '$TABLE_NAME$';
     $TIMESTAMPS$
 $SOFT_DELETE_DATES$
 $CONNECTION$
 $PRIMARY$
+
+
+    public $translatable = [
+            $TRANSLATED$
+
+    ];
+
+
+
     public $fillable = [
         $FIELDS$
     ];

@@ -62,7 +62,7 @@ class ModelGenerator extends BaseGenerator
         $templateData = $this->fillSoftDeletes($templateData);
 
         $templateData = $this->fillHasFactory($templateData);
-
+        $translated=[];
         $fillables = [];
         $primaryKey = 'id';
 
@@ -73,6 +73,12 @@ class ModelGenerator extends BaseGenerator
             if ($field->isPrimary) {
                 $primaryKey = $field->name;
             }
+
+            if (Str::endsWith($field->name, '_tr')) {
+                $translated[] = "'" . $field->name . "'";
+
+            }
+
         }
 
         $templateData = $this->fillDocs($templateData);
@@ -89,6 +95,8 @@ class ModelGenerator extends BaseGenerator
         }
 
         $templateData = str_replace('$PRIMARY$', $primary, $templateData);
+
+        $templateData = str_replace('$TRANSLATED$', implode(','.infy_nl_tab(1, 2), $translated), $templateData);
 
         $templateData = str_replace('$FIELDS$', implode(','.infy_nl_tab(1, 2), $fillables), $templateData);
 

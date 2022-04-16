@@ -1,0 +1,66 @@
+<?php
+
+namespace $NAMESPACE_REPOSITORY$;
+
+use $NAMESPACE_MODEL$\$MODEL_NAME$;
+use $NAMESPACE_APP$\Repositories\BaseRepository;
+use $NAMESPACE_APP$\Http\Requests\Create$MODEL_NAME$Request;
+use $NAMESPACE_APP$\Http\Requests\Update$MODEL_NAME$Request;
+
+use Illuminate\Support\Facades\File;
+
+$DOCS$
+class $MODEL_NAME$Repository extends BaseRepository
+{
+    /**
+     * @var array
+     */
+    protected $fieldSearchable = [
+        $FIELDS$
+    ];
+
+    /**
+     * Return searchable fields
+     *
+     * @return array
+     */
+    public function getFieldsSearchable()
+    {
+        return $this->fieldSearchable;
+    }
+
+    /**
+     * Configure the Model
+     **/
+    public function model()
+    {
+        return $MODEL_NAME$::class;
+    }
+
+
+    /**
+     * Create Function
+     **/
+    public function Create$MODEL_NAME$(Create$MODEL_NAME$Request $request)
+    {
+            $REP$
+    }
+
+    /**
+     * Update Function
+     **/
+    public function Update$MODEL_NAME$(Update$MODEL_NAME$Request $request ,$id)
+    {
+            $REP_UP$
+    }
+
+
+
+    /**
+     * Delete Function
+     **/
+    public function Delete$MODEL_NAME$($id)
+    {
+            $REP_DEL$
+    }
+}
