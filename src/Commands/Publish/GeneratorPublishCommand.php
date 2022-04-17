@@ -31,13 +31,16 @@ class GeneratorPublishCommand extends PublishBaseCommand
         $this->updateRouteServiceProvider();
         $this->publishTestCases();
         $this->publishBaseController();
+
+        $this->publishLocalizationMiddleware();
+
         $repositoryPattern = config('hublinkaz.laravel_generator.options.repository_pattern', true);
         if ($repositoryPattern) {
             $this->publishBaseRepository();
         }
-        if ($this->option('localized')) {
-            $this->publishLocaleFiles();
-        }
+        // if ($this->option('localized')) {
+        //     $this->publishLocaleFiles();
+        // }
     }
 
     /**
@@ -135,6 +138,37 @@ class GeneratorPublishCommand extends PublishBaseCommand
 
         $this->info('AppBaseController created');
     }
+
+
+
+
+
+    private function publishLocalizationMiddleware()
+    {
+        $templateData = get_template('middleware_localization', 'laravel-generator');
+
+        $templateData = $this->fillTemplate($templateData);
+
+        $middlewarePath = app_path('Http/Middleware/');
+
+        $fileName = 'Localization.php';
+
+        if (file_exists($middlewarePath.$fileName) && !$this->confirmOverwrite($fileName)) {
+            return;
+        }
+
+        FileUtil::createFile($middlewarePath, $fileName, $templateData);
+
+        $this->info('Localization Middleware created');
+    }
+
+
+
+
+
+
+
+
 
     private function publishBaseRepository()
     {

@@ -173,7 +173,7 @@ class BaseCommand extends Command
         }
 
         if ($this->commandData->getOption('localized')) {
-            $this->saveLocaleFile();
+            // $this->saveLocaleFile();
         }
 
         if (!$this->isSkip('dump-autoload')) {
