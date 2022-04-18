@@ -29,8 +29,9 @@ class RepositoryGenerator extends BaseGenerator
 
         $rep_data = ['$data= new ' . $this->commandData->modelName . '();'];
 
-        $update_data = ['$data = $this->heyvaRepository->find($id);'];
-        $delete_data = ['$data = $this->heyvaRepository->find($id);'];
+        $update_data = ['$data = $this->' . $this->commandData->modelName . 'Repository->find($id);'];
+        $delete_data = ['$data = $this->' . $this->commandData->modelName . 'Repository->find($id);'];
+
 
         foreach ($this->commandData->fields as $field) {
             if ($field->name != 'id' && $field->name != 'created_at' && $field->name != 'updated_at') {
