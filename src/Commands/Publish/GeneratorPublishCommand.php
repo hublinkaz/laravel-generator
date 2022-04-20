@@ -34,6 +34,15 @@ class GeneratorPublishCommand extends PublishBaseCommand
 
         $this->publishLocalizationMiddleware();
 
+        $this->publishHelperImage();
+
+        $this->publishImageModel();
+
+
+        $this->publishImageMigration();
+
+
+
         $repositoryPattern = config('hublinkaz.laravel_generator.options.repository_pattern', true);
         if ($repositoryPattern) {
             $this->publishBaseRepository();
@@ -161,6 +170,68 @@ class GeneratorPublishCommand extends PublishBaseCommand
 
         $this->info('Localization Middleware created');
     }
+
+
+    private function publishHelperImage()
+    {
+        $templateData = get_template('image_helper', 'laravel-generator');
+
+        $templateData = $this->fillTemplate($templateData);
+
+        $middlewarePath = app_path('Helpers/');
+
+        $fileName = 'Images.php';
+
+        if (file_exists($middlewarePath.$fileName) && !$this->confirmOverwrite($fileName)) {
+            return;
+        }
+
+        FileUtil::createFile($middlewarePath, $fileName, $templateData);
+
+        $this->info('Image Helper created');
+    }
+
+    
+    private function publishImageModel()
+    {
+        $templateData = get_template('image_model', 'laravel-generator');
+
+        $templateData = $this->fillTemplate($templateData);
+
+        $middlewarePath = app_path('Models/');
+
+        $fileName = 'Image.php';
+
+        if (file_exists($middlewarePath.$fileName) && !$this->confirmOverwrite($fileName)) {
+            return;
+        }
+
+        FileUtil::createFile($middlewarePath, $fileName, $templateData);
+
+        $this->info('Image Model created');
+    }
+
+
+    private function publishImageMigration()
+    {
+        $templateData = get_template('image_migration', 'laravel-generator');
+
+        $templateData = $this->fillTemplate($templateData);
+
+        $middlewarePath = database_path('migrations/');
+
+        $fileName = '2022_04_20_094830_create_images_table.php';
+
+        if (file_exists($middlewarePath.$fileName) && !$this->confirmOverwrite($fileName)) {
+            return;
+        }
+
+        FileUtil::createFile($middlewarePath, $fileName, $templateData);
+
+        $this->info('Image Migration created');
+    }
+
+
 
 
 

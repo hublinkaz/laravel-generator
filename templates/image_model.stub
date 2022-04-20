@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Models;
+
+use Eloquent as Model;
+/**
+ * Class Image
+ * @package App\Models
+ * @version April 20, 2022, 9:48 am UTC
+ *
+ * @property string $model
+ * @property integer $model_id
+ * @property string $image
+ * @property string $field
+ *
+ * @property integer $author_id
+ */
+class Image extends Model
+{
+    public $table = 'images';
+    public $fillable = [
+        'model',
+        'model_id',
+        'image',
+        'field',
+        'author_id'
+    ];
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'model' => 'string',
+        'model_id' => 'integer',
+        'image' => 'string',
+        'field' => 'string',
+        'author_id' => 'integer'
+    ];
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public static $rules = [
+
+    ];
+}

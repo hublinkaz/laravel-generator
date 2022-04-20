@@ -144,6 +144,13 @@ class ViewGenerator extends BaseGenerator
         $tableBodyFields = [];
 
         foreach ($this->commandData->fields as $field) {
+            if($field->htmlType=='file'){
+                $cellFieldTemplate = get_template('scaffold.views.table_cell_file', $this->templateType);
+
+            }else{
+                $cellFieldTemplate = get_template('scaffold.views.table_cell', $this->templateType);
+
+            }
             if (!$field->inIndex) {
                 continue;
             }
@@ -407,6 +414,21 @@ class ViewGenerator extends BaseGenerator
         $fieldsStr = '';
 
         foreach ($this->commandData->fields as $field) {
+
+            if($field->htmlType=='file'){
+                $templateName = 'show_field_file';
+                if ($this->commandData->isLocalizedTemplates()) {
+                    $templateName .= '_locale';
+                }
+                $fieldTemplate = get_template('scaffold.views.'.$templateName, $this->templateType);
+            }else{
+                $templateName = 'show_field';
+                if ($this->commandData->isLocalizedTemplates()) {
+                    $templateName .= '_locale';
+                }
+                $fieldTemplate = get_template('scaffold.views.'.$templateName, $this->templateType);
+            }
+
             if (!$field->inView) {
                 continue;
             }

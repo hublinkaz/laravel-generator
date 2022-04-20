@@ -26,12 +26,12 @@ class RepositoryGenerator extends BaseGenerator
 
     public function generate()
     {
+        //
 
         $rep_data = ['$data= new ' . $this->commandData->modelName . '();'];
 
         $update_data = ['$data = $this->' . $this->commandData->modelName . 'Repository->find($id);'];
         $delete_data = ['$data = $this->' . $this->commandData->modelName . 'Repository->find($id);'];
-
 
         foreach ($this->commandData->fields as $field) {
             if ($field->name != 'id' && $field->name != 'created_at' && $field->name != 'updated_at') {
@@ -46,13 +46,7 @@ class RepositoryGenerator extends BaseGenerator
                     $rep_data[] = ' ';
                     $rep_data[] = '//------------------- ' . $field->name . ' ----------------- ';
                     $rep_data[] = ' ';
-                    $rep_data[] = '$' . $field->name . ' = $request->file("' . $field->name . '");';
-                    $rep_data[] = '$' . $field->name . '_name = hexdec(uniqid()).".". $' . $field->name . '->extension();';
-                    $rep_data[] = '$' . $field->name . '->move(public_path("uploads/' . $this->commandData->modelName . '"), $' . $field->name . '_name);';
-                    $rep_data[] = '$' . $field->name . '_url = "/uploads/' . $this->commandData->modelName . '/".$' . $field->name . '_name;';
-                    $rep_data[] = '$data->' . $field->name . ' = $' . $field->name . '_url;';
 
-                    $rep_data[] = 'File::ensureDirectoryExists(public_path("uploads/' . $this->commandData->modelName . '"));';
                 }
 
                 if (!Str::endsWith($field->name, '_tr') && $field->htmlType != 'file') {
@@ -63,7 +57,10 @@ class RepositoryGenerator extends BaseGenerator
                 }
             }
         }
+        $rep_data[] = 'CreateImage($request,"' . $this->commandData->modelName . '",$data->id,"image");';
+
         $rep_data[] = '$data->save();';
+
         $rep_data[] = 'return $data;';
 
 
@@ -81,18 +78,7 @@ class RepositoryGenerator extends BaseGenerator
                     $update_data[] = ' ';
                     $update_data[] = '//------------------- ' . $field->name . ' ----------------- ';
                     $update_data[] = ' ';
-                    $update_data[] = 'if($request->'.$field->name.'){';
-                    $update_data[] = '     $image_path = public_path("$data->'.$field->name.'");';
-                    $update_data[] = '     if(File::exists($image_path)) {';
-                    $update_data[] = '          File::delete($image_path);';
-                    $update_data[] = '      }';
 
-                    $update_data[] = '     $' . $field->name . ' = $request->file("' . $field->name . '");';
-                    $update_data[] = '     $' . $field->name . '_name = hexdec(uniqid()).".". $' . $field->name . '->extension();';
-                    $update_data[] = '     $' . $field->name . '->move(public_path("uploads/' . $this->commandData->modelName . '"), $' . $field->name . '_name);';
-                    $update_data[] = '     $' . $field->name . '_url = "/uploads/' . $this->commandData->modelName . '/".$' . $field->name . '_name;';
-                    $update_data[] = '     $data->' . $field->name . ' = $' . $field->name . '_url;';
-                    $update_data[] = '}';
                 }
 
                 if (!Str::endsWith($field->name, '_tr') && $field->htmlType != 'file') {
@@ -115,18 +101,14 @@ class RepositoryGenerator extends BaseGenerator
                     $delete_data[] = ' ';
                     $delete_data[] = '//------------------- ' . $field->name . ' ----------------- ';
                     $delete_data[] = ' ';
-                    $delete_data[] = '$image_path = public_path($data->'.$field->name.');';
-                    $delete_data[] = '  if(File::exists($image_path)) {';
-                    $delete_data[] = '       File::delete($image_path);';
-                    $delete_data[] = '  }';
 
                 }
-
             }
         }
 
-        $delete_data[]='return $data->delete();';
+        $delete_data[] = 'return $data->delete();';
 
+        $rep_data[] = 'CreateImage($request,"' . $this->commandData->modelName . '",$data->id,"image");';
         $update_data[] = '$data->save();';
         $update_data[] = 'return $data;';
 

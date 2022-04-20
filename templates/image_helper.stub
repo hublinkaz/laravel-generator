@@ -1,0 +1,53 @@
+<?php
+
+use App\Models\Image;
+use Illuminate\Support\Facades\File;
+
+if (! function_exists('CreateImage')) {
+    function CreateImage($request,$model,$id,$field) {
+        if($request->hasfile('image'))
+        {
+            foreach($request->file('image') as $image)
+            {
+                $data= new Image();
+                $image_name = hexdec(uniqid()).".". $image->extension();
+                $image->move(public_path("uploads/Image"), $image_name);
+                $image_url = "/uploads/Image/".$image_name;
+                $data->image = $image_url;
+                File::ensureDirectoryExists(public_path("uploads/Image"));
+                $data->model= $model;
+                $data->field = $field;
+                $data->model_id= $id;
+                $data->author_id=auth()->user()->id;;
+                $data->save();
+            }
+        }
+
+        return true;
+    }
+}
+
+
+if (! function_exists('DeleteImage')) {
+    function UpdateImage($id) {
+        $data = Image::find($id)->firstOrFail();
+
+        //------------------- image -----------------
+
+        $image_path = public_path($data->image);
+          if(File::exists($image_path)) {
+               File::delete($image_path);
+            }
+        $data->delete();
+        return true;
+    }
+}
+
+
+
+if (! function_exists('GetImage')) {
+    function GetImage($model,$id,$field) {
+
+        return Image::where('model_id', '=', $id)->where('model',$model)->where('field',$field)->get();
+    }
+}
