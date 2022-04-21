@@ -66,7 +66,7 @@ class RepositoryGenerator extends BaseGenerator
         }
         $rep_data[] = '$data->save();';
 
-        $rep_data[] = '$this->CreateImage' . $this->commandData->modelName . '($request,"' . $this->commandData->modelName . '",$data->id,$fields);';
+        $rep_data[] = '$this->CreateImage' . $this->commandData->modelName . '($request,$data->id,$fields);';
 
 
         $rep_data[] = 'return $data;';
@@ -126,7 +126,7 @@ class RepositoryGenerator extends BaseGenerator
 
         $update_data[] = '$data->save();';
         $update_data[] = 'if(!$fields->isEmpty() ){';
-        $update_data[] = '$this->CreateImage' . $this->commandData->modelName . '($request,"' . $this->commandData->modelName . '",$data->id,$fields);';
+        $update_data[] = '$this->CreateImage' . $this->commandData->modelName . '($request,$data->id,$fields);';
         $update_data[] = ' ';
         $update_data[] = '}';
         $update_data[] = ' ';
