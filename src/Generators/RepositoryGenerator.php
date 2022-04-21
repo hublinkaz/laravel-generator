@@ -50,6 +50,8 @@ class RepositoryGenerator extends BaseGenerator
                     $rep_data[] = '//------------------- ' . $field->name . ' ----------------- ';
                     $rep_data[] = ' $fields[]="' . $field->name . '";';
                     $rep_data[] = ' ';
+                    $rep_data[] = '$data->' . $field->name . '=true';
+                    $rep_data[] = ' ';
 
 
                 }
@@ -87,7 +89,9 @@ class RepositoryGenerator extends BaseGenerator
                     $update_data[] = '      $fields[]="' . $field->name . '";';
                     $update_data[] = ' ';
                     $update_data[] = '}';
+                    $update_data[] = '$data->' . $field->name . '=true';
                     $update_data[] = ' ';
+
 
 
 
