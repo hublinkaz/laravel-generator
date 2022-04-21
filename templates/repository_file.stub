@@ -6,6 +6,7 @@ use $NAMESPACE_MODEL$\$MODEL_NAME$;
 use $NAMESPACE_APP$\Repositories\BaseRepository;
 use $NAMESPACE_APP$\Http\Requests\Create$MODEL_NAME$Request;
 use $NAMESPACE_APP$\Http\Requests\Update$MODEL_NAME$Request;
+use App\Models\Image;
 
 use Illuminate\Support\Facades\File;
 
@@ -63,4 +64,33 @@ class $MODEL_NAME$Repository extends BaseRepository
     {
             $REP_DEL$
     }
+
+
+
+
+    function CreateImage$MODEL_NAME$($request,$id,$fields) {
+        foreach($fields as $field) {
+            if($request->hasfile($field))
+            {
+                foreach($request->file($field) as $image)
+                {
+                    $data= new Image();
+                    $image_name = hexdec(uniqid()).".". $image->extension();
+                    $image->move(public_path("uploads/Image"), $image_name);
+                    $image_url = "/uploads/Image/".$image_name;
+                    $data->image = $image_url;
+                    File::ensureDirectoryExists(public_path("uploads/Image"));
+                    $data->model= '$MODEL_NAME$';
+                    $data->field = $field;
+                    $data->model_id= $id;
+                    $data->author_id=auth()->user()->id;;
+                    $data->save();
+                }
+            }
+        }
+
+
+        return true;
+    }
+
 }

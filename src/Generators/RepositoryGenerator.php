@@ -29,8 +29,11 @@ class RepositoryGenerator extends BaseGenerator
         //
 
         $rep_data = ['$data= new ' . $this->commandData->modelName . '();'];
+        $rep_data[] = '$fields=[];';
 
         $update_data = ['$data = $this->' . $this->commandData->modelName . 'Repository->find($id);'];
+        $update_data[] = '$fields=[];';
+
         $delete_data = ['$data = $this->' . $this->commandData->modelName . 'Repository->find($id);'];
 
         foreach ($this->commandData->fields as $field) {
@@ -45,7 +48,9 @@ class RepositoryGenerator extends BaseGenerator
                 if ($field->htmlType == 'file') {
                     $rep_data[] = ' ';
                     $rep_data[] = '//------------------- ' . $field->name . ' ----------------- ';
+                    $rep_data[] = ' $fields[]="' . $field->name . '";';
                     $rep_data[] = ' ';
+
 
                 }
 
@@ -57,9 +62,10 @@ class RepositoryGenerator extends BaseGenerator
                 }
             }
         }
-        $rep_data[] = 'CreateImage($request,"' . $this->commandData->modelName . '",$data->id,"image");';
-
         $rep_data[] = '$data->save();';
+
+        $rep_data[] = '$this->CreateImage' . $this->commandData->modelName . '($request,"' . $this->commandData->modelName . '",$data->id,$fields);';
+
 
         $rep_data[] = 'return $data;';
 
@@ -77,7 +83,13 @@ class RepositoryGenerator extends BaseGenerator
                 if ($field->htmlType == 'file') {
                     $update_data[] = ' ';
                     $update_data[] = '//------------------- ' . $field->name . ' ----------------- ';
+                    $update_data[] = 'if($request->' . $field->name . '){';
+                    $update_data[] = '      $fields[]="' . $field->name . '";';
                     $update_data[] = ' ';
+                    $update_data[] = '}';
+                    $update_data[] = ' ';
+
+
 
                 }
 
@@ -108,8 +120,14 @@ class RepositoryGenerator extends BaseGenerator
 
         $delete_data[] = 'return $data->delete();';
 
-        $rep_data[] = 'CreateImage($request,"' . $this->commandData->modelName . '",$data->id,"image");';
         $update_data[] = '$data->save();';
+        $update_data[] = 'if(!$fields->isEmpty() ){';
+        $update_data[] = '$this->CreateImage' . $this->commandData->modelName . '($request,"' . $this->commandData->modelName . '",$data->id,$fields);';
+        $update_data[] = ' ';
+        $update_data[] = '}';
+        $update_data[] = ' ';
+
+
         $update_data[] = 'return $data;';
 
         $templateData = get_template('repository_file', 'laravel-generator');
