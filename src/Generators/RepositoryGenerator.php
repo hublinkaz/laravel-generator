@@ -31,10 +31,10 @@ class RepositoryGenerator extends BaseGenerator
         $rep_data = ['$data= new ' . $this->commandData->modelName . '();'];
         $rep_data[] = '$fields=[];';
 
-        $update_data = ['$data = $this->' . $this->commandData->modelName . 'Repository->find($id);'];
+        $update_data = ['$data = ' . $this->commandData->modelName . '::find($id)->firstOrFail()'];
         $update_data[] = '$fields=[];';
 
-        $delete_data = ['$data = $this->' . $this->commandData->modelName . 'Repository->find($id);'];
+        $delete_data = ['$data = ' . $this->commandData->modelName . '::find($id)->firstOrFail()'];
 
         foreach ($this->commandData->fields as $field) {
             if ($field->name != 'id' && $field->name != 'created_at' && $field->name != 'updated_at') {
@@ -125,7 +125,7 @@ class RepositoryGenerator extends BaseGenerator
         $delete_data[] = 'return $data->delete();';
 
         $update_data[] = '$data->save();';
-        $update_data[] = 'if(!$fields->isEmpty() ){';
+        $update_data[] = ' if(!empty($fields)){';
         $update_data[] = '$this->CreateImage' . $this->commandData->modelName . '($request,$data->id,$fields);';
         $update_data[] = ' ';
         $update_data[] = '}';
