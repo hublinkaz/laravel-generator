@@ -32,7 +32,7 @@ class MenuGenerator extends BaseGenerator
                 'views/'
             )
         ).$commandData->getAddOn('menu.menu_file');
-        $this->templateType = config('hublinkaz.laravel_generator.templates', 'coreui-templates');
+        $this->templateType = config('hublinkaz.laravel_generator.templates', 'markup-templates');
 
         $this->menuContents = file_get_contents($this->path);
 
@@ -51,7 +51,7 @@ class MenuGenerator extends BaseGenerator
     {
         $this->menuContents .= $this->menuTemplate.infy_nl();
         $existingMenuContents = file_get_contents($this->path);
-        // adminlte uses <p> tab and coreui+stisla uses <span> tag for menu
+        // adminlte uses <p> tab and markup+stisla uses <span> tag for menu
         if (Str::contains($existingMenuContents, '<p>'.$this->commandData->config->mHumanPlural.'</p>') or
             Str::contains($existingMenuContents, '<span>'.$this->commandData->config->mHumanPlural.'</span>')) {
             $this->commandData->commandObj->info('Menu '.$this->commandData->config->mHumanPlural.' is already exists, Skipping Adjustment.');

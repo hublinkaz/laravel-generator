@@ -24,7 +24,7 @@ class ControllerGenerator extends BaseGenerator
     {
         $this->commandData = $commandData;
         $this->path = $commandData->config->pathController;
-        $this->templateType = config('hublinkaz.laravel_generator.templates', 'coreui-templates');
+        $this->templateType = config('hublinkaz.laravel_generator.templates', 'markup-templates');
         $this->fileName = $this->commandData->modelName.'Controller.php';
     }
 

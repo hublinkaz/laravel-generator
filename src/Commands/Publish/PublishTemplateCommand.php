@@ -53,7 +53,7 @@ class PublishTemplateCommand extends PublishBaseCommand
      */
     public function publishScaffoldTemplates()
     {
-        $templateType = config('hublinkaz.laravel_generator.templates', 'coreui-templates');
+        $templateType = config('hublinkaz.laravel_generator.templates', 'markup-templates');
 
         $templatesPath = get_templates_package_path($templateType).'/templates/scaffold';
 

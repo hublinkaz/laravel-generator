@@ -97,7 +97,7 @@ return [
     |
     */
 
-    'templates'         => 'coreui-templates',
+    'templates'         => 'markup-templates',
 
     /*
     |--------------------------------------------------------------------------
